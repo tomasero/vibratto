@@ -1,5 +1,6 @@
 const int motorCount = 4;
 int motors[motorCount] = {9, 6, 5, 3};
+//comment
 
 void setup() {
   Serial.begin(115200); //opens serial comm at specified baudrate 
