@@ -1,3 +1,5 @@
+#include <math.h>
+
 const int motorCount = 4;
 int motors[motorCount] = {9, 6, 5, 3};
 int M1 = motors[0];
@@ -16,7 +18,8 @@ void loop() {
   //saw(motors[0], 17, 255, 20000, 1); //ramp up
   //saw(motors[0], 255, 17, 20000, 1); //ramp down
   //square(motors[0], 255, 800, 400, 10); //square wave
-  triangle(M1,255,17,10000,2); //
+  //triangle(M1,255,17,10000,2); //
+  sine(M1, 255, 10000, 1);
   //brake(M1,1000);
 }
 
@@ -167,6 +170,25 @@ void triangle(int motor, int ampLo, int ampHi, int time, int iter) {
       saw(motor,ampHi,ampLo,time/2,1, false);
     }
   }
+}
+
+// -- SINE WAVE -- //
+//had to calculate min value of sin at which it will output 17 PWM
+void sine(int motor, int amp, int time, int iter) {
+  
+  Serial.println("PIN " + String(motor) + " | " + "SINE" + " | AMP = " + String(amp) 
+  + " | TIME = " + String(time) + " | ITER = " + String(iter));
+  
+  float value;
+  for(int i = 0; i < iter; i++) {
+     for(float j = 0.07; j <= 3.08 ; j+=0.01) {
+       value  = abs(floor(sin(j)*amp));
+       analogWrite(motor, value);
+       delay(time/(PI*100));
+       //Serial.println(j);
+    }
+  }
+    
 }
 
 
